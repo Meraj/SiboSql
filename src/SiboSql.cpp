@@ -35,6 +35,8 @@ SiboSql SiboSql::table(std::string tableName) {
         this->tableQuery.erase(std::prev(this->tableQuery.end()));
         this->tableQuery += ");";
         this->queries.push_back(this->tableQuery);
+        this->tableQuery.clear();
+        this->tableQuery += "CREATE TABLE IF NOT EXISTS " + tableName + "(";
     }
     return *this;
 }
@@ -43,9 +45,10 @@ void SiboSql::init() {
     this->tableQuery.erase(std::prev(this->tableQuery.end()));
     this->tableQuery += ");";
     this->queries.push_back(this->tableQuery);
-
+    this->tableQuery = "";
     for(std::string query:this->queries){
-        sqlite3_prepare(db,query.c_str(),-1,stmt);
+        std::cout << query << std::endl;
+        sqlite3_prepare(db,query.c_str(),-1,&stmt,NULL);
         sqlite3_step(stmt);
     }
 }
@@ -56,7 +59,7 @@ SiboSql SiboSql::id() {
 }
 
 sqlite3_stmt* SiboSql::query(std::string query) {
-    sqlite3_prepare(db,query.c_str(),-1,stmt);
+    sqlite3_prepare(db,query.c_str(),-1,&stmt,NULL);
     sqlite3_step(stmt);
     return stmt;
 }

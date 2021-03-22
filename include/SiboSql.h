@@ -7,12 +7,13 @@
 
 #include <iostream>
 #include <sqlite3.h>
+#include <bits/stdc++.h>
 #include <vector>
 class SiboSql {
 private:
     sqlite3 *db;
     int rc;
-    sqlite3_stmt stmt;
+    sqlite3_stmt *stmt;
     std::string tableQuery;
     std::vector<std::string> queries;
 public:
