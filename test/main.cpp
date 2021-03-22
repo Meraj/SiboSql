@@ -11,7 +11,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
 int main() {
     std::string dbName = "testdb.db";
     // Create Database
-    SiboSql siboSql = SiboSql(dbName);
+    SiboSql siboSql = SiboSql(dbName); // open or Create (if does not exist)
     siboSql.table("persons")
     .id()
     .column("first_name","VARCHAR")
