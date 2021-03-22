@@ -25,8 +25,13 @@ public:
     SiboSql id();
     SiboSql column(std::string columnName,std::string dataType);
     void init();
-    sqlite3_stmt* query(std::string query);
-    void query(std::string query,std::function<int (void*,int,char**,char**)> callback);
+    SiboSql bind(int index,int value);
+    SiboSql bind(int index,char value);
+    SiboSql bind(int index,std::string value);
+    SiboSql bind(int index,double value);
+    SiboSql query(std::string query);
+    sqlite3_stmt* execute();
+    void query(std::string query,int (*callback)(void *, int, char **, char **));
 };
 
 

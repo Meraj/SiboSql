@@ -1,4 +1,4 @@
 cmake-build-debug
 .idea
-CMakeFiles
-CMakeCache.txt
+test/cmake-build-debug
+test/.idea
