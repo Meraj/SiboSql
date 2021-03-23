@@ -58,9 +58,8 @@ SiboSql SiboSql::id() {
     return *this;
 }
 
-SiboSql SiboSql::query(std::string query) {
+void SiboSql::query(std::string query) {
      sqlite3_prepare(db,query.c_str(),-1,&stmt,NULL);
-    return *this;
 }
 
 void SiboSql::query(std::string query,int (*callback)(void *, int, char **, char **)) {
@@ -75,7 +74,7 @@ sqlite3_stmt *SiboSql::execute() {
     return stmt;
 }
 
-SiboSql SiboSql::bind(int index, int value) {
+void SiboSql::bind(int index, int value) {
     if (sqlite3_bind_int(
             stmt,
             index,
@@ -84,29 +83,22 @@ SiboSql SiboSql::bind(int index, int value) {
         != SQLITE_OK) {
         printf("\nCould not bind int.\n");
     }
-    return *this;
 }
 
-SiboSql SiboSql::bind(int index, std::string value) {
-    this->bind(index, value.c_str());
-    return *this;
-}
-
-SiboSql SiboSql::bind(int index, char value) {
+void SiboSql::bind(int index, std::string value) {
     if (sqlite3_bind_text(
             stmt,
             index,
-            &value,
+            value.c_str(),
             -1,
             NULL
     )
         != SQLITE_OK) {
         printf("\nCould not bind int.\n");
     }
-    return *this;
 }
 
-SiboSql SiboSql::bind(int index, double value) {
+void SiboSql::bind(int index, double value) {
     if (sqlite3_bind_double(
             stmt,
             index,
@@ -115,5 +107,18 @@ SiboSql SiboSql::bind(int index, double value) {
         != SQLITE_OK) {
         printf("\nCould not bind int.\n");
     }
-    return *this;
+}
+//
+std::vector<std::map<std::string,char*>> SiboSql::stmtToArray(sqlite3_stmt *Stmt){
+    std::vector<std::map<std::string,char*>> indexes;
+    while (sqlite3_step(Stmt) != SQLITE_DONE){
+        std::map<std::string,char*> Index;
+        int columnCounts = sqlite3_column_count(Stmt);
+        for(int i = 0; i < columnCounts ; i++){
+                char* value = (char *) sqlite3_column_text(Stmt, i);
+                Index[sqlite3_column_name(Stmt,i)] = value;
+        }
+        indexes.push_back(Index);
+    }
+    return indexes;
 }

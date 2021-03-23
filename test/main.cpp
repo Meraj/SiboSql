@@ -24,14 +24,20 @@ int main() {
     .column("user_id","INTEGER")
     .init();
     // End Create Database
-    // insert data and bind params
-    siboSql.query("INSERT INTO persons (first_name,last_name) VALUES ('jafar','jafarian');");
+    // insert data and bind params (Prevent Sql Injection)
+    siboSql.query("INSERT INTO persons (first_name,last_name) VALUES (?,?);");
+    siboSql.bind(1, "jafar");
+    siboSql.bind(2,"jafarian");
     siboSql.execute();
     // END insert data and bind params
+    // insert data normally
+    siboSql.query("INSERT INTO persons (first_name,last_name) VALUES ('mamad','mamadian');");
+    siboSql.execute();
     // select data
     sqlite3_stmt *stmt;
     siboSql.query("SELECT * FROM persons");
-    stmt = siboSql.execute();
+    stmt = siboSql.execute(); // handle stmt your self
+
 
     siboSql.query("SELECT * FROM persons",callback); // with callback function
 
