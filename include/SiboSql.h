@@ -72,39 +72,7 @@ public:
      */
     void init();
 
-    /**
-     * bind value
-     * @param index int
-     * @param value int
-     * @author Meraj
-     * @since 0.1.1
-     */
-    void bind(int index, int value);
 
-    /**
-     * bind Value
-     * @param index int
-     * @param value std::string
-     * @author Meraj
-     * @since 0.1.1
-     */
-    void bind(int index, std::string value);
-
-    /**
-     * bind Value
-     * @param index int
-     * @param value double
-     * @author Meraj
-     * @since 0.1.1
-     */
-    void bind(int index, double value);
-
-    /**
-     * set query to run
-     * @param query std::string
-     * @author Meraj
-     * @since 0.1.0
-     */
     void query(std::string query);
 
     /**

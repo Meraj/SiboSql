@@ -74,40 +74,7 @@ sqlite3_stmt *SiboSql::execute() {
     return stmt;
 }
 
-void SiboSql::bind(int index, int value) {
-    if (sqlite3_bind_int(
-            stmt,
-            index,
-            value
-    )
-        != SQLITE_OK) {
-        printf("\nCould not bind int.\n");
-    }
-}
 
-void SiboSql::bind(int index, std::string value) {
-    if (sqlite3_bind_text(
-            stmt,
-            index,
-            value.c_str(),
-            -1,
-            NULL
-    )
-        != SQLITE_OK) {
-        printf("\nCould not bind int.\n");
-    }
-}
-
-void SiboSql::bind(int index, double value) {
-    if (sqlite3_bind_double(
-            stmt,
-            index,
-            value
-    )
-        != SQLITE_OK) {
-        printf("\nCould not bind int.\n");
-    }
-}
 //
 std::vector<std::map<std::string,char*>> SiboSql::stmtToArray(sqlite3_stmt *Stmt){
     std::vector<std::map<std::string,char*>> indexes;
